@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    /*
+      总结:
+        1. 类的构造器不是必须写， 要对实例进行一些初始化的操作才写， 如添加指定属性。
+        2. 如果 A类 继承了 B类， 且 A类 中写了构造器方法， 那么 A类 构造器方法中的 super 是必须要调用的。
+        3. 类中所定义的方法， 都是放在了类的原型对象上， 供实例去使用。
+    */
+
+    // 创建一个 Person 类
+    class Person {
+      // 构造器方法
+      constructor(name, age) {
+        // 构造器中的 this 是谁？ -- 类的实例对象
+        this.name = name
+        this.age = age
+      }
+
+      // 一般方法
+      speak() {
+        // speak 方法放在了哪里？ -- 类的原型对象上， 供实例使用。
+        // 通过 Person 实例调用 speak 方法时，  speak 的 this 是 Person 实例。
+        console.log(`我叫 ${this.name}, 年龄是 ${this.age}`);
+      }
+    }
+
+    const p1 = new Person('tom', 20)
+
+    p1.speak()
+    console.log(p1)
+
+    // 使用 call 调用， 更改 this 指向。
+    p1.speak.call({ a: 1, b: 2 })
+
+
+    /* 继承 */
+    // 创建 Student 类， 继承于 Person 类
+    class Student extends Person {
+      constructor(name, age, grade) {
+        // 继承类有自己的构造器方法时， 必须使用 super 方法
+        // 将参数传递给 「父类」，通过父类实例化。
+        // super 必须在所有其他赋值前面
+        super(name, age)
+        this.grade = grade
+      }
+
+      // 重写父类的方法。
+      speak(){
+        console.log(`我是 ${this.name}, 今年读 ${this.grade}`)
+      }
+
+      study(){
+        // study 方法放在了哪里？ -- 类的原型对象上， 供实例使用。
+        // 通过 Student 实例调用 study 方法时，  study 的 this 是 Student 实例。
+        console.log("我很努力的学习")
+      }
+    }
+
+    const s1 = new Student('学生张', 15,'高一')
+    s1.speak()
+    s1.study()
+  </script>
+</body>
+
+</html>

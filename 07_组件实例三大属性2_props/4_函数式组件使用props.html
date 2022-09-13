@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06_组件实例三大属性2_props</title>
+</head>
+
+<body>
+
+
+  <img src="./props-practise.jpg" alt="">
+
+  <!-- ** 核心库引入有顺序 -->
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+  <script src="../js/prop-types.js"></script>
+
+
+  <!-- 准备好 n 个容器 -->
+  <div id="test"></div>
+
+  <script type="text/babel">
+
+    // 1. 定义组件
+    function Person(props) {
+      const { name, gender, age } = props
+      return (
+        <ul>
+          <li>姓名: {name}</li>
+          <li>性别: {gender}</li>
+          <li>年龄: {age + 3}</li>
+        </ul>
+      )
+    }
+
+    /* 限制属性类型 */
+    Person.propTypes = {
+      name: PropTypes.string.isRequired, // string, 且必须
+      age: PropTypes.number, // number
+      gender: PropTypes.string, // string, 非必须
+      speak: PropTypes.func, // func, 函数类型。 由于 function 是关键字， 因此使用 func 替代
+    }
+
+    /* 设置属性默认值 */
+    Person.defaultProps = {
+      gender: '未知',
+      age: 18,
+    }
+
+
+    // 2. 渲染虚拟 DOM 到页面
+    /* 通过标签值传递 props 信息 */
+    ReactDOM.render(<Person name='张三' gender='male' />, document.getElementById('test'))
+
+
+    function speak() {
+      console.log('speak func: 我说话了');
+    }
+  </script>
+</body>
+
+</html>

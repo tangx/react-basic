@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script type="text/javascript">
+    class Car {
+      constructor(name, price) {
+        this.name = name
+        this.price = price
+      }
+
+      wheel = 4
+
+      run = function () {
+        console.log(this);
+      }
+
+      bip = () => {
+        console.log(this);
+      }
+    }
+
+    const c1 = new Car('lynkco', 20)
+    // c1.run()
+    // c1.bip()
+
+    // run 赋值并调用，为函数调用 而非 car实例调用。 因此为 undefined.
+    x1=c1.run // undefined
+
+    // bip 赋值并调用， 为函数调用。 但是箭头函数本身没有 this. 因此调用链向上查找为 Car
+    x2=c1.bip  // Car{}
+
+    x1()
+    x2()
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>复习4: 展开运算符</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+
+    let arr1 = [1, 3, 5, 7]
+    let arr2 = [2, 4, 6, 8]
+
+    /* 1. 展开具有 @@iterator方法 的数组 */
+    console.log(arr1); // [1, 3, 5, 7]
+    console.log(...arr1); // 1 3 5 7
+
+    /* 2. 合并数组 */
+    const arr3 = [...arr1, ...arr2]
+    console.log(arr3); // [1, 3, 5, 7, 2, 4, 6, 8]
+
+    /* 3. 可变数量函数传参 */
+    function sum(...numbers) {
+      console.log("function numbers=>", numbers); // numbers 是一个数组
+
+      return numbers.reduce((preValue, currentValue) => {
+        return preValue + currentValue
+      })
+    }
+
+    console.log(sum(1, 2, 3)); // 6
+    console.log(sum(...arr2)); // 20
+
+
+    /* 4. 对象的深拷贝, 构造字面量对象 */
+    let p1 = { name: 'tom', age: 20 }
+    // console.log(...p1); // error: Uncaught TypeError: Found non-callable @@iterator
+
+    let p2 = { ...p1 } // 深拷贝
+    let p3 = p1 // 浅拷贝
+
+    p1.name = 'jerry' // 修改原有的值
+
+    console.log("origin", p1); // {name: 'jerry', age: 20}
+    console.log("deepcopy", p2); // {name: 'tom', age: 20}
+    console.log("shallow copy", p3); // {name: 'jerry', age: 20}
+
+    /* 构造字面量对象，并修改属性
+        使用合并的方式进行修改。
+          a) 如果属性存在， 则覆盖。
+          b) 如果属性不存在， 则新增
+    */
+    let p4 = { ...p1, name: '王五', gender: 'male' }
+    console.log(p4); // {name: '王五', age: 20, gender: 'male'}
+
+  </script>
+</body>
+
+</html>

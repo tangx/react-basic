@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>06_组件实例三大属性2_props</title>
+</head>
+
+<body>
+
+
+  <img src="./props-practise.jpg" alt="">
+
+  <!-- ** 核心库引入有顺序 -->
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+
+
+  <!-- 准备好 2 个容器 -->
+  <div id="test"></div>
+  <div id="test2"></div>
+  <div id="test3"></div>
+
+  <script type="text/babel">
+    /* 创建一个公共的 组件 */
+    class Person extends React.Component {
+      render() {
+        console.log(this);
+
+        /* 组件赋值， 提取信息 */
+        const { name, age } = this.props
+
+        return (
+          <ul>
+            <li>姓名: {name}</li>
+            <li>年龄: {age}</li>
+            <li>性别: {this.props.gender}</li>
+          </ul>
+        )
+      }
+    }
+
+    // 2. 渲染虚拟 DOM 到页面
+    /* 通过标签值传递 props 信息 */
+    ReactDOM.render(<Person name='zhangsan' gender='male' age='20' />, document.getElementById('test'))
+    ReactDOM.render(<Person name='李四' gender='female' age='30' />, document.getElementById('test2'))
+
+
+    /*
+      注意：
+        1. 标签中的 {...p3} 并不是 「常规意义上的」 js 中的 「深拷贝」
+          a) {} 是 React 语法， 表示解析其中的 js 表达式。
+          b) ...p 展开运算符能在 「标签中使用」， 是因为有 babel.js 和 react.js 的共同作用
+          c) {...p3} 不是任何地方都可以用的
+            console.log("@@@ ", { ...p3 }); // {}
+        参考 复习/4_展开运算符.html
+    */
+    const p3 = { name: '王五', gender: 'male', age: '30' }
+    ReactDOM.render(<Person {...p3} />, document.getElementById('test3'))
+
+  </script>
+</body>
+
+</html>
