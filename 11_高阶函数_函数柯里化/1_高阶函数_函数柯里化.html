@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11_高阶函数_函数柯里化</title>
+</head>
+
+<body>
+
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+
+  <!-- ** 核心库引入有顺序 -->
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写 babel, 使用 babel 将 jsx 转换成 js -->
+  <script type="text/babel">
+
+    /*
+      高阶函数： 如果一个函数符合下面2个规范中的任何一个， 那该函数就是高阶函数
+        1. 若 A 函数， 接收的参数是一个函数， 那么 A 就可以被称为 高阶函数。
+        2. 若 A 函数， 调用的返回值依然是一个函数， 那么 A 就可以被称为 高阶函数。
+
+      函数的柯里化：
+        通过函数调用继续返回函数的方式， 实现多次接收参数， 最后统一处理的函数编码形式。 
+    */
+
+
+    class Login extends React.Component {
+
+      state = {
+        username: '123',
+        password: '',
+      }
+
+      // onChangeUsername = (event) => {
+      //   this.setState({ username: event.target.value })
+      // }
+
+      onChangeSaveFormData = (dataType) => {
+        // console.log(dataType);
+
+        // 返回一个函数作为回调函数
+        return (event) => {
+          this.setState({ [dataType]: event.target.value })
+        }
+      }
+
+
+      handleSubmit = (event) => {
+        event.preventDefault() // 阻止默认行为
+        const { username, password } = this.state
+
+        alert(`用户名: ${username}, 密码: ${password}`)
+      }
+
+
+
+      render() {
+        return (
+          <form action="https://www.baidu.com" onSubmit={this.handleSubmit}>
+            用户名: <input onChange={this.onChangeSaveFormData('username')} type="text" name="username" />
+            密码: <input onChange={this.onChangeSaveFormData('password')} type="text" name="password" />
+            <button>提交</button>
+          </form>
+        )
+      }
+    }
+
+    ReactDOM.render(<Login />, document.getElementById('test'))
+  </script>
+</body>
+
+</html>

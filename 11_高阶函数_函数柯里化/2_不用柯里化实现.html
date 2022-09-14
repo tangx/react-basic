@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>11_高阶函数_函数柯里化</title>
+</head>
+
+<body>
+
+  <!-- 准备好一个容器 -->
+  <div id="test"></div>
+
+  <!-- ** 核心库引入有顺序 -->
+  <script src="../js/react.development.js"></script>
+  <script src="../js/react-dom.development.js"></script>
+  <script src="../js/babel.min.js"></script>
+
+  <!-- 此处一定要写 babel, 使用 babel 将 jsx 转换成 js -->
+  <script type="text/babel">
+
+
+    class Login extends React.Component {
+
+      state = {
+        username: '123',
+        password: '',
+      }
+
+
+
+      handleSubmit = (event) => {
+        event.preventDefault() // 阻止默认行为
+        const { username, password } = this.state
+
+        alert(`用户名: ${username}, 密码: ${password}`)
+      }
+
+      /*
+        1. 这里没有使用柯里化
+        2. 而是在 onChange 的回调函数中创建了一个箭头函数
+          a) 箭头函数获 react回调传入的参数 event
+          b) 并将 event 作为参数传入到 this.saveFormData 函数中。
+      */
+      saveFormData = (dataType, event) => {
+        this.setState = { [dataType]: event.target.value }
+      }
+
+
+      render() {
+        return (
+          <form action="https://www.baidu.com" onSubmit={this.handleSubmit}>
+            用户名: <input onChange={(event) => { this.saveFormData('username', event) }} type="text" name="username" />
+            密码: <input onChange={e => this.saveFormData('password', e)} type="text" name="password" />
+            <button>提交</button>
+          </form>
+        )
+      }
+    }
+
+    ReactDOM.render(<Login />, document.getElementById('test'))
+  </script>
+</body>
+
+</html>
